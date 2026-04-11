@@ -1,0 +1,2035 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Numerical Sequences — Classroom Presentation</title>
+<script>
+MathJax = {
+  tex: { inlineMath: [['\\(','\\)'],['$','$']], displayMath: [['\\[','\\]'],['$$','$$']] },
+  options: { skipHtmlTags: ['script','noscript','style','textarea','pre'] }
+};
+</script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js" id="MathJax-script" async></script>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --navy: #1a2744;
+    --navy-light: #253461;
+    --accent: #3d6b9e;
+    --accent-soft: #dde8f4;
+    --gray-dark: #2d2d2d;
+    --gray-mid: #555;
+    --gray-light: #888;
+    --border: #d0d8e4;
+    --bg: #f7f8fc;
+    --white: #ffffff;
+    --slide-max: 960px;
+    --radius: 10px;
+  }
+
+  html, body {
+    height: 100%;
+    font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+    background: var(--bg);
+    color: var(--gray-dark);
+    overflow: hidden;
+  }
+
+  /* ── Deck container ── */
+  #deck {
+    position: fixed;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* ── Progress bar ── */
+  #progress-bar {
+    height: 3px;
+    background: var(--accent-soft);
+    flex-shrink: 0;
+  }
+  #progress-fill {
+    height: 100%;
+    background: var(--accent);
+    transition: width 0.3s ease;
+  }
+
+  /* ── Slide area ── */
+  #slides-wrap {
+    flex: 1;
+    overflow: hidden;
+    position: relative;
+  }
+
+  .slide {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem 2.5rem;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.25s ease;
+  }
+  .slide.active {
+    opacity: 1;
+    pointer-events: all;
+  }
+
+  .slide-inner {
+    width: 100%;
+    max-width: var(--slide-max);
+    display: flex;
+    flex-direction: column;
+    gap: 1.4rem;
+  }
+
+  /* ── Typography ── */
+  .slide-label {
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--accent);
+  }
+
+  h1.slide-title {
+    font-size: 2.6rem;
+    font-weight: 700;
+    color: var(--navy);
+    line-height: 1.15;
+  }
+  h2.slide-title {
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--navy);
+    line-height: 1.2;
+  }
+  .slide-subtitle {
+    font-size: 1.05rem;
+    color: var(--gray-mid);
+    line-height: 1.6;
+    max-width: 680px;
+  }
+
+  /* ── Rule divider ── */
+  .rule {
+    border: none;
+    border-top: 1.5px solid var(--border);
+    width: 60px;
+    margin: 0;
+  }
+
+  /* ── Cards grid ── */
+  .cards {
+    display: grid;
+    gap: 1rem;
+  }
+  .cards.cols-2 { grid-template-columns: 1fr 1fr; }
+  .cards.cols-3 { grid-template-columns: 1fr 1fr 1fr; }
+
+  .card {
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 1.1rem 1.3rem;
+  }
+  .card h3 {
+    font-size: 0.85rem;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 0.5rem;
+  }
+  .card p, .card li {
+    font-size: 0.95rem;
+    color: var(--gray-dark);
+    line-height: 1.65;
+  }
+  .card ul {
+    padding-left: 1.2rem;
+  }
+  .card li { margin-bottom: 0.25rem; }
+
+  /* ── Accent card (highlighted) ── */
+  .card.accent {
+    background: var(--accent-soft);
+    border-color: var(--accent);
+  }
+  .card.accent h3 { color: var(--navy-light); }
+
+  /* ── Definition card ── */
+  .def-box {
+    background: var(--navy);
+    color: #e8edf7;
+    border-radius: var(--radius);
+    padding: 1.2rem 1.5rem;
+  }
+  .def-box .def-label {
+    font-size: 0.7rem;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: #8aadce;
+    margin-bottom: 0.5rem;
+  }
+  .def-box p {
+    font-size: 1rem;
+    line-height: 1.7;
+    color: #dce6f3;
+  }
+
+  /* ── Formula box ── */
+  .formula-box {
+    background: var(--white);
+    border: 1.5px solid var(--accent);
+    border-radius: var(--radius);
+    padding: 1rem 1.4rem;
+    text-align: center;
+    font-size: 1.1rem;
+  }
+  .formula-box .formula-label {
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 0.4rem;
+  }
+
+  /* ── Inline list ── */
+  .bullet-list {
+    list-style: none;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.55rem;
+  }
+  .bullet-list li {
+    display: block;
+    position: relative;
+    padding-left: 1rem;
+    font-size: 1rem;
+    line-height: 1.55;
+    color: var(--gray-dark);
+  }
+  .bullet-list li::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0.42em;
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: var(--accent);
+  }
+
+  /* ── Term sequence display ── */
+  .seq-strip {
+    display: flex;
+    align-items: center;
+    gap: 0.35rem;
+    flex-wrap: wrap;
+  }
+  .seq-term {
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 0.4rem 0.75rem;
+    font-size: 0.95rem;
+    font-weight: 500;
+    color: var(--navy);
+  }
+  .seq-term.hi {
+    background: var(--accent-soft);
+    border-color: var(--accent);
+    color: var(--navy-light);
+  }
+  .seq-sep {
+    color: var(--gray-light);
+    font-size: 1rem;
+  }
+
+  /* ── Table ── */
+  .data-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.9rem;
+  }
+  .data-table th {
+    background: var(--navy);
+    color: #c8d8ee;
+    font-weight: 600;
+    font-size: 0.78rem;
+    letter-spacing: 0.07em;
+    text-transform: uppercase;
+    padding: 0.5rem 0.9rem;
+    text-align: left;
+  }
+  .data-table td {
+    padding: 0.45rem 0.9rem;
+    border-bottom: 1px solid var(--border);
+    color: var(--gray-dark);
+  }
+  .data-table tr:last-child td { border-bottom: none; }
+  .data-table tr:nth-child(even) td { background: #f0f4fa; }
+
+  /* ── Title slide ── */
+  .title-slide .slide-inner {
+    gap: 1.1rem;
+  }
+  .course-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    background: var(--accent-soft);
+    color: var(--accent);
+    font-size: 0.78rem;
+    font-weight: 600;
+    letter-spacing: 0.09em;
+    text-transform: uppercase;
+    padding: 0.35rem 0.85rem;
+    border-radius: 20px;
+    width: fit-content;
+  }
+  .title-meta {
+    font-size: 0.88rem;
+    color: var(--gray-light);
+    display: flex;
+    gap: 1.5rem;
+  }
+
+  /* ── Step grid ── */
+  .step-grid {
+    display: flex;
+    gap: 0.8rem;
+    flex-wrap: wrap;
+  }
+  .step-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.7rem;
+    flex: 1;
+    min-width: 180px;
+  }
+  .step-num {
+    flex-shrink: 0;
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background: var(--accent);
+    color: #fff;
+    font-size: 0.8rem;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 0.1rem;
+  }
+  .step-text {
+    font-size: 0.92rem;
+    line-height: 1.55;
+    color: var(--gray-dark);
+  }
+  .step-text strong {
+    display: block;
+    font-size: 0.82rem;
+    font-weight: 600;
+    color: var(--navy);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: 0.15rem;
+  }
+
+  /* ── Two-column layout ── */
+  .two-col {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.2rem;
+    align-items: start;
+  }
+
+  /* ── Callout ── */
+  .callout {
+    display: flex;
+    gap: 0.8rem;
+    align-items: flex-start;
+    background: #fff8e7;
+    border-left: 3px solid #c89a20;
+    border-radius: 0 6px 6px 0;
+    padding: 0.8rem 1rem;
+  }
+  .callout p { font-size: 0.93rem; line-height: 1.6; color: #5a4200; }
+
+  /* ── Note box ── */
+  .note-box {
+    background: var(--accent-soft);
+    border-radius: 8px;
+    padding: 0.85rem 1.1rem;
+  }
+  .note-box p { font-size: 0.93rem; line-height: 1.6; color: var(--navy-light); }
+
+  /* ── Navigation bar ── */
+  #nav-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.7rem 2rem;
+    background: var(--white);
+    border-top: 1px solid var(--border);
+    flex-shrink: 0;
+    gap: 1rem;
+  }
+
+  .nav-btn {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.5rem 1.2rem;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    background: var(--white);
+    color: var(--navy);
+    font-size: 0.88rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background 0.15s, border-color 0.15s;
+    font-family: inherit;
+  }
+  .nav-btn:hover:not(:disabled) {
+    background: var(--accent-soft);
+    border-color: var(--accent);
+  }
+  .nav-btn:disabled {
+    opacity: 0.35;
+    cursor: default;
+  }
+  .nav-btn.primary {
+    background: var(--navy);
+    color: #fff;
+    border-color: var(--navy);
+  }
+  .nav-btn.primary:hover:not(:disabled) {
+    background: var(--navy-light);
+    border-color: var(--navy-light);
+  }
+
+  #slide-counter {
+    font-size: 0.83rem;
+    color: var(--gray-light);
+    letter-spacing: 0.04em;
+    min-width: 80px;
+    text-align: center;
+  }
+
+  #slide-title-bar {
+    font-size: 0.83rem;
+    color: var(--gray-mid);
+    flex: 1;
+    text-align: center;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  /* ── Summary grid ── */
+  .summary-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 0.85rem;
+  }
+  .summary-card {
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-top: 3px solid var(--accent);
+    border-radius: 8px;
+    padding: 0.9rem 1.1rem;
+  }
+  .summary-card h4 {
+    font-size: 0.8rem;
+    font-weight: 700;
+    letter-spacing: 0.07em;
+    text-transform: uppercase;
+    color: var(--navy);
+    margin-bottom: 0.5rem;
+  }
+  .summary-card ul {
+    padding-left: 1rem;
+    list-style: disc;
+  }
+  .summary-card li {
+    font-size: 0.83rem;
+    line-height: 1.55;
+    color: var(--gray-mid);
+    margin-bottom: 0.2rem;
+  }
+
+  /* ── Responsive ── */
+  @media (max-width: 720px) {
+    h1.slide-title { font-size: 1.9rem; }
+    h2.slide-title { font-size: 1.5rem; }
+    .cards.cols-2, .cards.cols-3, .two-col, .summary-grid {
+      grid-template-columns: 1fr;
+    }
+    .slide { padding: 1.2rem 1.2rem; }
+    #nav-bar { padding: 0.6rem 1rem; }
+    #slide-title-bar { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<div id="deck">
+  <div id="progress-bar"><div id="progress-fill"></div></div>
+
+  <div id="slides-wrap">
+
+    <!-- ══════════════════════════════════════════════════════════════
+         SLIDE 1 — TITLE
+    ══════════════════════════════════════════════════════════════ -->
+    <section class="slide title-slide" data-title="Title">
+      <div class="slide-inner">
+        <div class="course-tag">Mathematics — Unit 4</div>
+        <h1 class="slide-title">Numerical Sequences</h1>
+        <hr class="rule" />
+        <p class="slide-subtitle">
+          An introduction to arithmetic and geometric sequences, their formulas,
+          real-world applications, and the foundations of mathematical reasoning.
+        </p>
+        <div class="title-meta">
+          <span>Classroom Presentation</span>
+          <span>·</span>
+          <span>Use ← → arrow keys or the buttons below to navigate</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- ══════════════════════════════════════════════════════════════
+         SLIDE 2 — WHAT IS A SEQUENCE?
+    ══════════════════════════════════════════════════════════════ -->
+    <section class="slide" data-title="What Is a Sequence?">
+      <div class="slide-inner">
+        <span class="slide-label">Section 1 — Definitions</span>
+        <h2 class="slide-title">What Is a Sequence?</h2>
+        <div class="def-box">
+          <div class="def-label">Definition</div>
+          <p>
+            A <strong>sequence</strong> is an <em>ordered list of numbers</em> in which
+            each number is assigned a specific position, indexed by the natural numbers
+            \( 1, 2, 3, \ldots \)
+          </p>
+        </div>
+        <div class="cards cols-2">
+          <div class="card">
+            <h3>Key idea</h3>
+            <p>
+              Order matters. The sequence \(2, 4, 6, 8, \ldots\) is different from
+              a random set \{2, 4, 6, 8\} — the <em>position</em> of each number carries meaning.
+            </p>
+          </div>
+          <div class="card">
+            <h3>Everyday analogy</h3>
+            <p>
+              Think of the floors of a building: floor 1, floor 2, floor 3, …&nbsp;
+              Each floor is at a specific position and has a specific value.
+            </p>
+          </div>
+        </div>
+        <div class="seq-strip">
+          <span class="seq-term">2</span>
+          <span class="seq-sep">,</span>
+          <span class="seq-term">4</span>
+          <span class="seq-sep">,</span>
+          <span class="seq-term">6</span>
+          <span class="seq-sep">,</span>
+          <span class="seq-term">8</span>
+          <span class="seq-sep">,</span>
+          <span class="seq-term">10</span>
+          <span class="seq-sep">,</span>
+          <span class="seq-term">…</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- ══════════════════════════════════════════════════════════════
+         SLIDE 3 — FINITE vs INFINITE
+    ══════════════════════════════════════════════════════════════ -->
+    <section class="slide" data-title="Finite vs Infinite Sequences">
+      <div class="slide-inner">
+        <span class="slide-label">Section 1 — Definitions</span>
+        <h2 class="slide-title">Finite vs Infinite Sequences</h2>
+        <div class="cards cols-2">
+          <div class="card accent">
+            <h3>Finite sequence</h3>
+            <p>Has a definite last term. The list ends.</p>
+            <br/>
+            <p>Example: days of the week numbered \(1, 2, 3, 4, 5, 6, 7\)</p>
+            <br/>
+            <div class="seq-strip">
+              <span class="seq-term">1</span><span class="seq-sep">,</span>
+              <span class="seq-term">2</span><span class="seq-sep">,</span>
+              <span class="seq-term">3</span><span class="seq-sep">,</span>
+              <span class="seq-term">4</span><span class="seq-sep">,</span>
+              <span class="seq-term">5</span><span class="seq-sep">,</span>
+              <span class="seq-term">6</span><span class="seq-sep">,</span>
+              <span class="seq-term hi">7</span>
+            </div>
+          </div>
+          <div class="card">
+            <h3>Infinite sequence</h3>
+            <p>Continues without end. The list goes on forever.</p>
+            <br/>
+            <p>Example: positive even numbers \(2, 4, 6, 8, \ldots\)</p>
+            <br/>
+            <div class="seq-strip">
+              <span class="seq-term">2</span><span class="seq-sep">,</span>
+              <span class="seq-term">4</span><span class="seq-sep">,</span>
+              <span class="seq-term">6</span><span class="seq-sep">,</span>
+              <span class="seq-term">8</span><span class="seq-sep">,</span>
+              <span class="seq-term">…</span>
+            </div>
+          </div>
+        </div>
+        <div class="note-box">
+          <p>
+            In this course we will mostly study <strong>infinite sequences</strong>,
+            but the formulas apply equally to finite ones.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ══════════════════════════════════════════════════════════════
+         SLIDE 4 — NOTATION
+    ══════════════════════════════════════════════════════════════ -->
+    <section class="slide" data-title="Sequence Notation">
+      <div class="slide-inner">
+        <span class="slide-label">Section 1 — Definitions</span>
+        <h2 class="slide-title">Sequence Notation</h2>
+        <div class="def-box">
+          <div class="def-label">Standard notation</div>
+          <p>
+            A sequence is written \(\{U_n\}\) or \((U_n)_{n \geq 1}\), where:
+            \[
+              U_n \text{ is the } n\text{-th term (its value)}, \quad
+              n \text{ is the index (its position)}.
+            \]
+          </p>
+        </div>
+        <div class="cards cols-3">
+          <div class="card">
+            <h3>Index \(n\)</h3>
+            <p>The position of a term in the list. Always a natural number: \(n = 1, 2, 3, \ldots\)</p>
+          </div>
+          <div class="card">
+            <h3>Term \(U_n\)</h3>
+            <p>The value at position \(n\). For example, \(U_3\) is the third term.</p>
+          </div>
+          <div class="card">
+            <h3>Read as …</h3>
+            <p>\(U_5 = 10\) means "the fifth term has value 10."</p>
+          </div>
+        </div>
+        <div class="callout">
+          <p>
+            <strong>Example:</strong>&nbsp;
+            For the sequence \(3, 6, 9, 12, \ldots\) we have
+            \(U_1 = 3\), \(U_2 = 6\), \(U_3 = 9\), \(U_n = 3n\).
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ══════════════════════════════════════════════════════════════
+         SLIDE 5 — NTH TERM CONCEPT
+    ══════════════════════════════════════════════════════════════ -->
+    <section class="slide" data-title="The nth Term">
+      <div class="slide-inner">
+        <span class="slide-label">Section 1 — Definitions</span>
+        <h2 class="slide-title">The \(n\)th Term</h2>
+        <p class="slide-subtitle">
+          The \(n\)th term \(U_n\) does two things at once: it names a <em>position</em>
+          and gives the <em>value</em> at that position.
+        </p>
+        <div class="cards cols-2">
+          <div class="card">
+            <h3>Position → Value</h3>
+            <p>Knowing \(n\) lets us compute \(U_n\) using a formula.</p>
+            <br/>
+            <p>For \(U_n = n^2\):</p>
+            <table class="data-table" style="margin-top:0.6rem">
+              <thead><tr><th>\(n\)</th><th>\(U_n = n^2\)</th></tr></thead>
+              <tbody>
+                <tr><td>1</td><td>1</td></tr>
+                <tr><td>2</td><td>4</td></tr>
+                <tr><td>3</td><td>9</td></tr>
+                <tr><td>4</td><td>16</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="card accent">
+            <h3>Why it matters</h3>
+            <ul class="bullet-list">
+              <li>We can find <em>any</em> term without listing all previous ones.</li>
+              <li>We can check whether a given number belongs to the sequence.</li>
+              <li>We can compare sequences by comparing their formulas.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ══════════════════════════════════════════════════════════════
+         SLIDE 6 — EXPLICIT vs RECURSIVE
+    ══════════════════════════════════════════════════════════════ -->
+    <section class="slide" data-title="Explicit vs Recursive Rules">
+      <div class="slide-inner">
+        <span class="slide-label">Section 1 — Definitions</span>
+        <h2 class="slide-title">Two Ways to Define a Sequence</h2>
+        <div class="cards cols-2">
+          <div class="card accent">
+            <h3>Explicit (closed-form)</h3>
+            <p>
+              A formula that gives \(U_n\) directly in terms of \(n\),
+              with no need to know previous terms.
+            </p>
+            <br/>
+            <p>Example: \(\quad U_n = 3n + 1\)</p>
+            <br/>
+            <p>
+              To find the 100th term: \(U_{100} = 3(100)+1 = 301\). Done.
+            </p>
+          </div>
+          <div class="card">
+            <h3>Recursive (recurrence)</h3>
+            <p>
+              A rule that defines each term <em>in terms of previous terms</em>,
+              together with one or more initial values.
+            </p>
+            <br/>
+            <p>Example: \(\quad U_1 = 2,\quad U_{n} = U_{n-1} + 5\)</p>
+            <br/>
+            <p>Terms: \(2, 7, 12, 17, 22, \ldots\)</p>
+          </div>
+        </div>
+        <div class="note-box">
+          <p>
+            Both definitions describe the same sequence — explicit formulas are faster
+            for computing any term; recursive rules often show the pattern more naturally.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ══════════════════════════════════════════════════════════════
+         SLIDE 7 — TRANSLATING BETWEEN FORMS
+    ══════════════════════════════════════════════════════════════ -->
+    <section class="slide" data-title="Translating Between Forms">
+      <div class="slide-inner">
+        <span class="slide-label">Section 1 — Definitions</span>
+        <h2 class="slide-title">Translating Between Forms</h2>
+        <p class="slide-subtitle">A sequence can be expressed in four equivalent ways.</p>
+        <div class="cards cols-2">
+          <div class="card">
+            <h3>1 — Words</h3>
+            <p>"Start at 5 and add 3 each time."</p>
+          </div>
+          <div class="card">
+            <h3>2 — List of terms</h3>
+            <div class="seq-strip" style="margin-top:0.3rem">
+              <span class="seq-term">5</span><span class="seq-sep">,</span>
+              <span class="seq-term">8</span><span class="seq-sep">,</span>
+              <span class="seq-term">11</span><span class="seq-sep">,</span>
+              <span class="seq-term">14</span><span class="seq-sep">,</span>
+              <span class="seq-term">…</span>
+            </div>
+          </div>
+          <div class="card">
+            <h3>3 — Table</h3>
+            <table class="data-table">
+              <thead><tr><th>\(n\)</th><th>\(U_n\)</th></tr></thead>
+              <tbody>
+                <tr><td>1</td><td>5</td></tr>
+                <tr><td>2</td><td>8</td></tr>
+                <tr><td>3</td><td>11</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="card accent">
+            <h3>4 — Formula</h3>
+            <p>Explicit: \(\quad U_n = 3n + 2\)</p>
+            <br/>
+            <p>Recursive: \(\quad U_1 = 5,\quad U_n = U_{n-1} + 3\)</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ══════════════════════════════════════════════════════════════
+         SLIDE 8 — ARITHMETIC SEQUENCE DEFINITION
+    ══════════════════════════════════════════════════════════════ -->
+    <section class="slide" data-title="Arithmetic Sequences">
+      <div class="slide-inner">
+        <span class="slide-label">Section 2 — Arithmetic Sequences</span>
+        <h2 class="slide-title">What Makes a Sequence Arithmetic?</h2>
+        <div class="def-box">
+          <div class="def-label">Definition</div>
+          <p>
+            A sequence is <strong>arithmetic</strong> if the difference between any
+            two consecutive terms is constant. That constant is called the
+            <strong>common difference</strong>, denoted \(d\).
+          </p>
+        </div>
+        <div class="seq-strip">
+          <span class="seq-term hi">3</span>
+          <span class="seq-sep">→ +4 →</span>
+          <span class="seq-term hi">7</span>
+          <span class="seq-sep">→ +4 →</span>
+          <span class="seq-term hi">11</span>
+          <span class="seq-sep">→ +4 →</span>
+          <span class="seq-term hi">15</span>
+          <span class="seq-sep">→ +4 →</span>
+          <span class="seq-term hi">19</span>
+          <span class="seq-sep">, …</span>
+        </div>
+        <div class="cards cols-2">
+          <div class="card">
+            <h3>Formal check</h3>
+            <p>\(U_{n+1} - U_n = d \quad\) for all \(n\)</p>
+          </div>
+          <div class="card">
+            <h3>In words</h3>
+            <p>Each term is obtained by <em>adding the same number</em> to the previous term.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ══════════════════════════════════════════════════════════════
+         SLIDE 9 — COMMON DIFFERENCE
+    ══════════════════════════════════════════════════════════════ -->
+    <section class="slide" data-title="The Common Difference">
+      <div class="slide-inner">
+        <span class="slide-label">Section 2 — Arithmetic Sequences</span>
+        <h2 class="slide-title">The Common Difference \(d\)</h2>
+        <p class="slide-subtitle">
+          The common difference can be positive, negative, or zero.
+        </p>
+        <div class="cards cols-3">
+          <div class="card accent">
+            <h3>Positive \(d &gt; 0\)</h3>
+            <p>Sequence is <em>increasing</em></p>
+            <br/>
+            <p>\(2, 5, 8, 11, \ldots\)</p>
+            <p style="font-size:0.85rem;color:var(--gray-light);margin-top:0.3rem">\(d = 3\)</p>
+          </div>
+          <div class="card">
+            <h3>Negative \(d &lt; 0\)</h3>
+            <p>Sequence is <em>decreasing</em></p>
+            <br/>
+            <p>\(20, 15, 10, 5, \ldots\)</p>
+            <p style="font-size:0.85rem;color:var(--gray-light);margin-top:0.3rem">\(d = -5\)</p>
+          </div>
+          <div class="card">
+            <h3>Zero \(d = 0\)</h3>
+            <p>Sequence is <em>constant</em></p>
+            <br/>
+            <p>\(7, 7, 7, 7, \ldots\)</p>
+            <p style="font-size:0.85rem;color:var(--gray-light);margin-top:0.3rem">\(d = 0\)</p>
+          </div>
+        </div>
+        <div class="callout">
+          <p>
+            <strong>To find \(d\):</strong>&nbsp;
+            Subtract any term from the next one: \(d = U_{n+1} - U_n\).
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ══════════════════════════════════════════════════════════════
+         SLIDE 10 — ARITHMETIC NTH-TERM FORMULA
+    ══════════════════════════════════════════════════════════════ -->
+    <section class="slide" data-title="Arithmetic nth-Term Formula">
+      <div class="slide-inner">
+        <span class="slide-label">Section 2 — Arithmetic Sequences</span>
+        <h2 class="slide-title">The \(n\)th-Term Formula</h2>
+        <div class="formula-box">
+          <div class="formula-label">Arithmetic nth term</div>
+          \[ U_n = U_1 + (n-1)\,d \]
+        </div>
+        <div class="cards cols-3">
+          <div class="card">
+            <h3>\(U_1\)</h3>
+            <p>The <em>first term</em> of the sequence.</p>
+          </div>
+          <div class="card">
+            <h3>\(d\)</h3>
+            <p>The <em>common difference</em>.</p>
+          </div>
+          <div class="card">
+            <h3>\(n\)</h3>
+            <p>The <em>position</em> of the term we want.</p>
+          </div>
+        </div>
+        <div class="callout">
+          <p>
+            <strong>Intuition:</strong>&nbsp;
+            To reach the \(n\)th term, we start at \(U_1\) and add \(d\) exactly
+            \((n-1)\) times: once to get \(U_2\), twice to get \(U_3\), and so on.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ══════════════════════════════════════════════════════════════
+         SLIDE 11 — ARITHMETIC EXAMPLE
+    ══════════════════════════════════════════════════════════════ -->
+    <section class="slide" data-title="Arithmetic Example">
+      <div class="slide-inner">
+        <span class="slide-label">Section 2 — Arithmetic Sequences</span>
+        <h2 class="slide-title">Worked Example — Arithmetic</h2>
+        <div class="card accent">
+          <h3>Problem</h3>
+          <p>The sequence \(4,\; 7,\; 10,\; 13,\; \ldots\) — find the 20th term.</p>
+        </div>
+        <div class="step-grid">
+          <div class="step-item">
+            <div class="step-num">1</div>
+            <div class="step-text">
+              <strong>Identify \(U_1\) and \(d\)</strong>
+              \(U_1 = 4,\quad d = 7 - 4 = 3\)
+            </div>
+          </div>
+          <div class="step-item">
+            <div class="step-num">2</div>
+            <div class="step-text">
+              <strong>Apply the formula</strong>
+              \(U_n = U_1 + (n-1)d\)
+            </div>
+          </div>
+          <div class="step-item">
+            <div class="step-num">3</div>
+            <div class="step-text">
+              <strong>Substitute</strong>
+              \(U_{20} = 4 + (20-1)\times 3\)
+            </div>
+          </div>
+          <div class="step-item">
+            <div class="step-num">4</div>
+            <div class="step-text">
+              <strong>Calculate</strong>
+              \(U_{20} = 4 + 57 = \mathbf{61}\)
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ══════════════════════════════════════════════════════════════
+         SLIDE 12 — ARITHMETIC SERIES SUM
+    ══════════════════════════════════════════════════════════════ -->
+    <section class="slide" data-title="Arithmetic Series Sum">
+      <div class="slide-inner">
+        <span class="slide-label">Section 2 — Arithmetic Series</span>
+        <h2 class="slide-title">Sum of an Arithmetic Series</h2>
+        <p class="slide-subtitle">The sum of the first \(n\) terms is denoted \(S_n\).</p>
+        <div class="cards cols-2">
+          <div class="formula-box">
+            <div class="formula-label">Formula A — using \(d\)</div>
+            \[ S_n = \frac{n}{2}\bigl(2U_1 + (n-1)d\bigr) \]
+          </div>
+          <div class="formula-box">
+            <div class="formula-label">Formula B — using \(U_n\)</div>
+            \[ S_n = \frac{n}{2}(U_1 + U_n) \]
+          </div>
+        </div>
+        <div class="callout">
+          <p>
+            <strong>Insight (Gauss):</strong>&nbsp;
+            Pairing the first and last terms, the second and second-to-last, etc.,
+            each pair sums to \(U_1 + U_n\). There are \(\tfrac{n}{2}\) such pairs.
+          </p>
+        </div>
+        <div class="card">
+          <h3>Example</h3>
+          <p>
+            Sum of \(4, 7, 10, \ldots\) for the first 20 terms:
+            \(S_{20} = \dfrac{20}{2}(4 + 61) = 10 \times 65 = \mathbf{650}\)
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ══════════════════════════════════════════════════════════════
+         SLIDE 13 — GEOMETRIC SEQUENCE DEFINITION
+    ══════════════════════════════════════════════════════════════ -->
+    <section class="slide" data-title="Geometric Sequences">
+      <div class="slide-inner">
+        <span class="slide-label">Section 3 — Geometric Sequences</span>
+        <h2 class="slide-title">What Makes a Sequence Geometric?</h2>
+        <div class="def-box">
+          <div class="def-label">Definition</div>
+          <p>
+            A sequence is <strong>geometric</strong> if the ratio between any two
+            consecutive terms is constant. That constant is called the
+            <strong>common ratio</strong>, denoted \(r\).
+          </p>
+        </div>
+        <div class="seq-strip">
+          <span class="seq-term hi">2</span>
+          <span class="seq-sep">× 3</span>
+          <span class="seq-term hi">6</span>
+          <span class="seq-sep">× 3</span>
+          <span class="seq-term hi">18</span>
+          <span class="seq-sep">× 3</span>
+          <span class="seq-term hi">54</span>
+          <span class="seq-sep">× 3</span>
+          <span class="seq-term hi">162</span>
+          <span class="seq-sep">, …</span>
+        </div>
+        <div class="cards cols-2">
+          <div class="card">
+            <h3>Formal check</h3>
+            <p>\(\dfrac{U_{n+1}}{U_n} = r \quad\) for all \(n\)</p>
+          </div>
+          <div class="card">
+            <h3>In words</h3>
+            <p>Each term is obtained by <em>multiplying the previous term by the same number</em>.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ══════════════════════════════════════════════════════════════
+         SLIDE 14 — COMMON RATIO
+    ══════════════════════════════════════════════════════════════ -->
+    <section class="slide" data-title="The Common Ratio">
+      <div class="slide-inner">
+        <span class="slide-label">Section 3 — Geometric Sequences</span>
+        <h2 class="slide-title">The Common Ratio \(r\)</h2>
+        <div class="cards cols-2">
+          <div class="card">
+            <h3>\(r &gt; 1\) — Growth</h3>
+            <p>\(3,\; 6,\; 12,\; 24,\; \ldots\quad (r=2)\)</p>
+            <p style="font-size:0.88rem;color:var(--gray-mid);margin-top:0.4rem">Terms grow without bound.</p>
+          </div>
+          <div class="card">
+            <h3>\(0 &lt; r &lt; 1\) — Decay</h3>
+            <p>\(80,\; 40,\; 20,\; 10,\; \ldots\quad (r=\tfrac{1}{2})\)</p>
+            <p style="font-size:0.88rem;color:var(--gray-mid);margin-top:0.4rem">Terms shrink toward zero.</p>
+          </div>
+          <div class="card">
+            <h3>\(r &lt; 0\) — Alternating signs</h3>
+            <p>\(2,\; -6,\; 18,\; -54,\; \ldots\quad (r=-3)\)</p>
+            <p style="font-size:0.88rem;color:var(--gray-mid);margin-top:0.4rem">Sign alternates each term.</p>
+          </div>
+          <div class="card accent">
+            <h3>Finding \(r\)</h3>
+            <p>Divide any term by the one before it:</p>
+            <p style="margin-top:0.4rem">\(r = \dfrac{U_{n+1}}{U_n}\)</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ══════════════════════════════════════════════════════════════
+         SLIDE 15 — GEOMETRIC NTH-TERM FORMULA
+    ══════════════════════════════════════════════════════════════ -->
+    <section class="slide" data-title="Geometric nth-Term Formula">
+      <div class="slide-inner">
+        <span class="slide-label">Section 3 — Geometric Sequences</span>
+        <h2 class="slide-title">The \(n\)th-Term Formula</h2>
+        <div class="formula-box">
+          <div class="formula-label">Geometric nth term</div>
+          \[ U_n = U_1 \cdot r^{\,n-1} \]
+        </div>
+        <div class="cards cols-3">
+          <div class="card">
+            <h3>\(U_1\)</h3>
+            <p>The <em>first term</em> of the sequence.</p>
+          </div>
+          <div class="card">
+            <h3>\(r\)</h3>
+            <p>The <em>common ratio</em>.</p>
+          </div>
+          <div class="card">
+            <h3>Exponent \(n-1\)</h3>
+            <p>We multiply by \(r\) exactly \((n-1)\) times to reach position \(n\).</p>
+          </div>
+        </div>
+        <div class="callout">
+          <p>
+            <strong>Compare with arithmetic:</strong>&nbsp;
+            In arithmetic we <em>add</em> \(d\) each time; in geometric we <em>multiply</em> by \(r\) each time.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ══════════════════════════════════════════════════════════════
+         SLIDE 16 — GEOMETRIC EXAMPLE
+    ══════════════════════════════════════════════════════════════ -->
+    <section class="slide" data-title="Geometric Example">
+      <div class="slide-inner">
+        <span class="slide-label">Section 3 — Geometric Sequences</span>
+        <h2 class="slide-title">Worked Example — Geometric</h2>
+        <div class="card accent">
+          <h3>Problem</h3>
+          <p>The sequence \(5,\; 15,\; 45,\; 135,\; \ldots\) — find the 7th term.</p>
+        </div>
+        <div class="step-grid">
+          <div class="step-item">
+            <div class="step-num">1</div>
+            <div class="step-text">
+              <strong>Identify \(U_1\) and \(r\)</strong>
+              \(U_1 = 5,\quad r = \dfrac{15}{5} = 3\)
+            </div>
+          </div>
+          <div class="step-item">
+            <div class="step-num">2</div>
+            <div class="step-text">
+              <strong>Apply the formula</strong>
+              \(U_n = U_1 \cdot r^{n-1}\)
+            </div>
+          </div>
+          <div class="step-item">
+            <div class="step-num">3</div>
+            <div class="step-text">
+              <strong>Substitute</strong>
+              \(U_7 = 5 \cdot 3^{6}\)
+            </div>
+          </div>
+          <div class="step-item">
+            <div class="step-num">4</div>
+            <div class="step-text">
+              <strong>Calculate</strong>
+              \(U_7 = 5 \times 729 = \mathbf{3645}\)
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ══════════════════════════════════════════════════════════════
+         SLIDE 17 — GEOMETRIC SERIES SUM
+    ══════════════════════════════════════════════════════════════ -->
+    <section class="slide" data-title="Geometric Series Sum">
+      <div class="slide-inner">
+        <span class="slide-label">Section 3 — Geometric Series</span>
+        <h2 class="slide-title">Sum of a Geometric Series</h2>
+        <div class="formula-box">
+          <div class="formula-label">Geometric partial sum — \(r \neq 1\)</div>
+          \[ S_n = U_1 \cdot \frac{1 - r^n}{1 - r} \]
+        </div>
+        <div class="note-box">
+          <p>
+            When \(r = 1\), every term equals \(U_1\), so \(S_n = n \cdot U_1\).
+          </p>
+        </div>
+        <div class="card">
+          <h3>Example</h3>
+          <p>
+            Sum of \(5, 15, 45, \ldots\) for the first 6 terms:
+            \[
+              S_6 = 5 \cdot \frac{1 - 3^6}{1 - 3}
+                  = 5 \cdot \frac{1 - 729}{-2}
+                  = 5 \times 364
+                  = \mathbf{1820}
+            \]
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ══════════════════════════════════════════════════════════════
+         SLIDE 18 — BEHAVIOR OF GEOMETRIC SEQUENCES
+    ══════════════════════════════════════════════════════════════ -->
+    <section class="slide" data-title="Behavior of Geometric Sequences">
+      <div class="slide-inner">
+        <span class="slide-label">Section 4 — Behavior</span>
+        <h2 class="slide-title">Behavior of Geometric Sequences</h2>
+        <div class="cards cols-2">
+          <div class="card accent">
+            <h3>Growth — \(|r| &gt; 1\)</h3>
+            <p>Terms grow without bound in absolute value.</p>
+            <br/>
+            <p>\(r = 2:\quad 1,\; 2,\; 4,\; 8,\; 16,\; \ldots\)</p>
+            <p style="margin-top:0.4rem;font-size:0.88rem;color:var(--navy-light)">Each term doubles — exponential growth.</p>
+          </div>
+          <div class="card">
+            <h3>Decay — \(0 &lt; |r| &lt; 1\)</h3>
+            <p>Terms shrink toward zero.</p>
+            <br/>
+            <p>\(r = \tfrac{1}{2}:\quad 64,\; 32,\; 16,\; 8,\; 4,\; \ldots\)</p>
+            <p style="margin-top:0.4rem;font-size:0.88rem;color:var(--gray-mid)">Each term halves — exponential decay.</p>
+          </div>
+          <div class="card">
+            <h3>Alternating signs — \(r &lt; 0\)</h3>
+            <p>The sign of terms flips at each step.</p>
+            <br/>
+            <p>\(r = -2:\quad 1,\; -2,\; 4,\; -8,\; 16,\; \ldots\)</p>
+            <p style="margin-top:0.4rem;font-size:0.88rem;color:var(--gray-mid)">Absolute values still grow (if \(|r|&gt;1\)).</p>
+          </div>
+          <div class="card">
+            <h3>Constant — \(r = 1\)</h3>
+            <p>Every term is equal to \(U_1\).</p>
+            <br/>
+            <p>\(r = 1:\quad 7,\; 7,\; 7,\; 7,\; \ldots\)</p>
+            <p style="margin-top:0.4rem;font-size:0.88rem;color:var(--gray-mid)">A constant (also arithmetic, with \(d=0\)).</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ══════════════════════════════════════════════════════════════
+         SLIDE 19 — SENSE OF VARIATION
+    ══════════════════════════════════════════════════════════════ -->
+    <section class="slide" data-title="Sense of Variation">
+      <div class="slide-inner">
+        <span class="slide-label">Section 4 — Behavior</span>
+        <h2 class="slide-title">Sense of Variation of a Sequence</h2>
+        <p class="slide-subtitle">
+          The <em>sense of variation</em> describes whether a sequence is increasing, decreasing,
+          or neither — and how quickly.
+        </p>
+        <div class="cards cols-2">
+          <div class="card">
+            <h3>Strictly increasing</h3>
+            <p>\(U_{n+1} &gt; U_n\) for all \(n\)</p>
+            <p style="margin-top:0.3rem;font-size:0.88rem;color:var(--gray-mid)">Each term is larger than the last.</p>
+          </div>
+          <div class="card">
+            <h3>Strictly decreasing</h3>
+            <p>\(U_{n+1} &lt; U_n\) for all \(n\)</p>
+            <p style="margin-top:0.3rem;font-size:0.88rem;color:var(--gray-mid)">Each term is smaller than the last.</p>
+          </div>
+        </div>
+        <div class="callout">
+          <p>
+            <strong>Quick rule for arithmetic:</strong>&nbsp;
+            increasing if \(d &gt; 0\), decreasing if \(d &lt; 0\).<br/>
+            <strong>Quick rule for geometric (\(U_1 &gt; 0\)):</strong>&nbsp;
+            increasing if \(r &gt; 1\), decreasing if \(0 &lt; r &lt; 1\).
+          </p>
+        </div>
+        <div class="note-box">
+          <p>
+            When \(r &lt; 0\) in a geometric sequence, the terms alternate in sign
+            — the sequence is neither increasing nor decreasing overall.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ══════════════════════════════════════════════════════════════
+         SLIDE 20 — REAL-WORLD: LINEAR GROWTH
+    ══════════════════════════════════════════════════════════════ -->
+    <section class="slide" data-title="Real World — Linear Growth">
+      <div class="slide-inner">
+        <span class="slide-label">Section 5 — Applications</span>
+        <h2 class="slide-title">Arithmetic Sequences in the Real World</h2>
+        <p class="slide-subtitle">Arithmetic sequences model situations of <em>constant, equal change</em>.</p>
+        <div class="cards cols-2">
+          <div class="card accent">
+            <h3>Scenario — Monthly savings</h3>
+            <p>
+              Sarah saves $200 in month 1, then $50 more each month.
+              How much has she saved after 12 months?
+            </p>
+            <br/>
+            <p>\(U_1 = 200,\quad d = 50\)</p>
+            <p>\(U_{12} = 200 + 11 \times 50 = \$750\)</p>
+            <p>\(S_{12} = \dfrac{12}{2}(200 + 750) = \mathbf{\$5700}\)</p>
+          </div>
+          <div class="card">
+            <h3>Other linear-growth examples</h3>
+            <ul class="bullet-list">
+              <li>Taxi fare: fixed start + constant price per km</li>
+              <li>Stacking bricks: each row adds the same number of bricks</li>
+              <li>Hourly wage: total pay grows by a fixed amount each hour</li>
+              <li>Calendar: days of a month form an arithmetic sequence</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ══════════════════════════════════════════════════════════════
+         SLIDE 21 — REAL-WORLD: EXPONENTIAL GROWTH/DECAY
+    ══════════════════════════════════════════════════════════════ -->
+    <section class="slide" data-title="Real World — Exponential Growth &amp; Decay">
+      <div class="slide-inner">
+        <span class="slide-label">Section 5 — Applications</span>
+        <h2 class="slide-title">Geometric Sequences in the Real World</h2>
+        <p class="slide-subtitle">Geometric sequences model situations of <em>proportional change</em>.</p>
+        <div class="cards cols-2">
+          <div class="card accent">
+            <h3>Scenario — Compound interest</h3>
+            <p>
+              An investment of $1000 grows by 5% per year.
+              What is its value after 8 years?
+            </p>
+            <br/>
+            <p>\(U_1 = 1000,\quad r = 1.05\)</p>
+            <p>\(U_8 = 1000 \times 1.05^7 \approx \mathbf{\$1407}\)</p>
+          </div>
+          <div class="card">
+            <h3>Scenario — Radioactive decay</h3>
+            <p>
+              A substance loses half its mass every 10 years.
+              Starting at 200 g, how much remains after 50 years?
+            </p>
+            <br/>
+            <p>\(U_1 = 200,\quad r = 0.5,\quad n = 6\)</p>
+            <p>\(U_6 = 200 \times 0.5^5 = \mathbf{6.25}\text{ g}\)</p>
+          </div>
+        </div>
+        <div class="note-box">
+          <p>
+            When \(r &gt; 1\) — exponential growth (investment, population).
+            When \(0 &lt; r &lt; 1\) — exponential decay (radioactivity, depreciation).
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ══════════════════════════════════════════════════════════════
+         SLIDE 22 — MATHEMATICAL REASONING
+    ══════════════════════════════════════════════════════════════ -->
+    <section class="slide" data-title="Mathematical Reasoning">
+      <div class="slide-inner">
+        <span class="slide-label">Section 6 — Reasoning &amp; Proof</span>
+        <h2 class="slide-title">Communicating Mathematical Reasoning</h2>
+        <p class="slide-subtitle">
+          Good mathematics is not only correct — it is clearly communicated.
+        </p>
+        <div class="cards cols-2">
+          <div class="card">
+            <h3>Use proper notation</h3>
+            <ul class="bullet-list">
+              <li>Write \(U_n\) not just "the nth number"</li>
+              <li>State what each variable represents</li>
+              <li>Show each algebraic step clearly</li>
+            </ul>
+          </div>
+          <div class="card">
+            <h3>Structure your argument</h3>
+            <ul class="bullet-list">
+              <li>Begin with what is given</li>
+              <li>State what you are trying to find or prove</li>
+              <li>Proceed in logical steps</li>
+              <li>Conclude clearly</li>
+            </ul>
+          </div>
+        </div>
+        <div class="callout">
+          <p>
+            A proof is a <em>logical argument</em> — not just a list of calculations.
+            Each step must follow from the previous one by a rule or definition.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ══════════════════════════════════════════════════════════════
+         SLIDE 23 — INTRO TO PROOF BY INDUCTION
+    ══════════════════════════════════════════════════════════════ -->
+    <section class="slide" data-title="Proof by Induction — Idea">
+      <div class="slide-inner">
+        <span class="slide-label">Section 6 — Reasoning &amp; Proof</span>
+        <h2 class="slide-title">Introduction to Proof by Induction</h2>
+        <p class="slide-subtitle">Induction proves a statement is true for <em>all</em> natural numbers \(n\).</p>
+        <div class="step-grid">
+          <div class="step-item">
+            <div class="step-num">1</div>
+            <div class="step-text">
+              <strong>Base case</strong>
+              Verify the statement is true for \(n = 1\) (or the first value).
+            </div>
+          </div>
+          <div class="step-item">
+            <div class="step-num">2</div>
+            <div class="step-text">
+              <strong>Inductive hypothesis</strong>
+              Assume the statement is true for some arbitrary \(n = k\).
+            </div>
+          </div>
+          <div class="step-item">
+            <div class="step-num">3</div>
+            <div class="step-text">
+              <strong>Inductive step</strong>
+              Prove the statement is then true for \(n = k+1\).
+            </div>
+          </div>
+          <div class="step-item">
+            <div class="step-num">4</div>
+            <div class="step-text">
+              <strong>Conclusion</strong>
+              By induction, the statement holds for all \(n \geq 1\).
+            </div>
+          </div>
+        </div>
+        <div class="callout">
+          <p>
+            <strong>Analogy — domino effect:</strong>&nbsp;
+            If the first domino falls (base case) and each falling domino knocks the
+            next (inductive step), then all dominoes eventually fall.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ══════════════════════════════════════════════════════════════
+         SLIDE 24 — INDUCTION EXAMPLE
+    ══════════════════════════════════════════════════════════════ -->
+    <section class="slide" data-title="Proof by Induction — Example">
+      <div class="slide-inner">
+        <span class="slide-label">Section 6 — Reasoning &amp; Proof</span>
+        <h2 class="slide-title">Induction Example</h2>
+        <div class="card accent">
+          <h3>Claim</h3>
+          <p>
+            \(1 + 2 + 3 + \cdots + n = \dfrac{n(n+1)}{2}\) for all \(n \geq 1\).
+          </p>
+        </div>
+        <div class="two-col">
+          <div>
+            <div class="card" style="margin-bottom:0.8rem">
+              <h3>Base case \((n=1)\)</h3>
+              <p>LHS \(= 1\). &nbsp; RHS \(= \dfrac{1 \cdot 2}{2} = 1\). &nbsp; ✓</p>
+            </div>
+            <div class="card">
+              <h3>Inductive hypothesis</h3>
+              <p>Assume true for \(n = k\):</p>
+              <p>\(1 + 2 + \cdots + k = \dfrac{k(k+1)}{2}\)</p>
+            </div>
+          </div>
+          <div>
+            <div class="card">
+              <h3>Inductive step — prove for \(n = k+1\)</h3>
+              <p>
+                \(1 + 2 + \cdots + k + (k+1)\)
+                \(= \dfrac{k(k+1)}{2} + (k+1)\)
+                \(= (k+1)\!\left(\dfrac{k}{2}+1\right)\)
+                \(= \dfrac{(k+1)(k+2)}{2}\) &nbsp; ✓
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ══════════════════════════════════════════════════════════════
+         SLIDE 25 — KEY TAKEAWAYS
+    ══════════════════════════════════════════════════════════════ -->
+    <section class="slide" data-title="Key Takeaways">
+      <div class="slide-inner">
+        <span class="slide-label">Summary</span>
+        <h2 class="slide-title">Key Takeaways</h2>
+        <div class="summary-grid">
+          <div class="summary-card">
+            <h4>Sequences</h4>
+            <ul>
+              <li>Ordered lists indexed by \(n\)</li>
+              <li>Finite or infinite</li>
+              <li>Explicit vs recursive rules</li>
+              <li>Translate freely between forms</li>
+            </ul>
+          </div>
+          <div class="summary-card">
+            <h4>Arithmetic</h4>
+            <ul>
+              <li>Constant difference \(d\)</li>
+              <li>\(U_n = U_1 + (n-1)d\)</li>
+              <li>\(S_n = \tfrac{n}{2}(U_1+U_n)\)</li>
+              <li>Models linear change</li>
+            </ul>
+          </div>
+          <div class="summary-card">
+            <h4>Geometric</h4>
+            <ul>
+              <li>Constant ratio \(r\)</li>
+              <li>\(U_n = U_1 \cdot r^{n-1}\)</li>
+              <li>\(S_n = U_1\tfrac{1-r^n}{1-r}\)</li>
+              <li>Models exponential change</li>
+            </ul>
+          </div>
+          <div class="summary-card">
+            <h4>Behavior</h4>
+            <ul>
+              <li>\(|r|>1\): growth</li>
+              <li>\(0&lt;|r|&lt;1\): decay</li>
+              <li>\(r&lt;0\): alternating signs</li>
+              <li>Sense of variation</li>
+            </ul>
+          </div>
+          <div class="summary-card">
+            <h4>Applications</h4>
+            <ul>
+              <li>Savings, wages → arithmetic</li>
+              <li>Interest, decay → geometric</li>
+              <li>Interpret results in context</li>
+            </ul>
+          </div>
+          <div class="summary-card">
+            <h4>Proof &amp; Reasoning</h4>
+            <ul>
+              <li>Use precise notation</li>
+              <li>Logical step-by-step arguments</li>
+              <li>Proof by induction structure</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ══════════════════════════════════════════════════════════════
+         SLIDE 26 — EXERCISES INTRO
+    ══════════════════════════════════════════════════════════════ -->
+    <section class="slide" data-title="Exercises — Solved Examples">
+      <div class="slide-inner">
+        <span class="slide-label">Extension — Exercises</span>
+        <h2 class="slide-title">Solved Exercises</h2>
+        <p class="slide-subtitle">
+          The following exercises are added at the end of the lesson as guided applications.
+          Each one is broken into small steps so the reasoning remains clear.
+        </p>
+        <div class="cards cols-2">
+          <div class="card accent">
+            <h3>Exercise I</h3>
+            <p>
+              A recurrence sequence transformed into a geometric sequence by defining
+              \(V_n = U_n + 3\).
+            </p>
+          </div>
+          <div class="card">
+            <h3>Exercise II</h3>
+            <p>
+              A recurrence sequence transformed into an arithmetic sequence by defining
+              \(V_n = 1 + \dfrac{1}{U_n}\).
+            </p>
+          </div>
+        </div>
+        <div class="note-box">
+          <p>
+            After the solved examples, a final similar exercise is provided for the student
+            to solve independently.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ══════════════════════════════════════════════════════════════
+         SLIDE 27 — EXERCISE I STATEMENT
+    ══════════════════════════════════════════════════════════════ -->
+    <section class="slide" data-title="Exercise I — Statement">
+      <div class="slide-inner">
+        <span class="slide-label">Solved Exercise I</span>
+        <h2 class="slide-title">Exercise I — Given Sequence</h2>
+        <div class="def-box">
+          <div class="def-label">Statement</div>
+          <p>
+            Consider the sequence \((U_n)\), \(n \in \mathbb{N}\), defined by
+            \[
+              \begin{cases}
+                U_0 = -1 \\
+                U_{n+1} = \dfrac{1}{3}U_n - 2
+              \end{cases}
+            \]
+          </p>
+        </div>
+        <div class="cards cols-2">
+          <div class="card">
+            <h3>Questions</h3>
+            <ul class="bullet-list">
+              <li>Calculate \(U_1\) and \(U_2\), then deduce that \((U_n)\) is neither arithmetic nor geometric.</li>
+              <li>Let \((V_n)\) be defined by \(V_n = U_n + 3\).</li>
+              <li>Show that \((V_n)\) is geometric, then determine its first term and common ratio.</li>
+              <li>Express \(V_n\) and then \(U_n\) in terms of \(n\).</li>
+            </ul>
+          </div>
+          <div class="card">
+            <h3>Final task</h3>
+            <ul class="bullet-list">
+              <li>Calculate \(S = V_0 + V_1 + \cdots + V_n\).</li>
+              <li>Deduce \(S' = U_0 + U_1 + \cdots + U_n\).</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ══════════════════════════════════════════════════════════════
+         SLIDE 28 — EXERCISE I SOLUTION PART A
+    ══════════════════════════════════════════════════════════════ -->
+    <section class="slide" data-title="Exercise I — Solution 1">
+      <div class="slide-inner">
+        <span class="slide-label">Solved Exercise I</span>
+        <h2 class="slide-title">Exercise I — First Terms and Nature</h2>
+        <div class="step-grid">
+          <div class="step-item">
+            <div class="step-num">1</div>
+            <div class="step-text">
+              <strong>Compute \(U_1\)</strong>
+              \[
+                U_1 = \dfrac{1}{3}U_0 - 2
+                    = \dfrac{1}{3}(-1) - 2
+                    = -\dfrac{1}{3} - 2
+                    = -\dfrac{7}{3}
+              \]
+            </div>
+          </div>
+          <div class="step-item">
+            <div class="step-num">2</div>
+            <div class="step-text">
+              <strong>Compute \(U_2\)</strong>
+              \[
+                U_2 = \dfrac{1}{3}U_1 - 2
+                    = \dfrac{1}{3}\left(-\dfrac{7}{3}\right) - 2
+                    = -\dfrac{7}{9} - 2
+                    = -\dfrac{25}{9}
+              \]
+            </div>
+          </div>
+        </div>
+        <div class="cards cols-2">
+          <div class="card accent">
+            <h3>Not arithmetic</h3>
+            <p>
+              \[
+                U_1 - U_0 = -\dfrac{7}{3} - (-1) = -\dfrac{4}{3}
+              \]
+              \[
+                U_2 - U_1 = -\dfrac{25}{9} - \left(-\dfrac{7}{3}\right)
+                           = -\dfrac{4}{9}
+              \]
+              The differences are not equal, so \((U_n)\) is not arithmetic.
+            </p>
+          </div>
+          <div class="card">
+            <h3>Not geometric</h3>
+            <p>
+              \[
+                \dfrac{U_1}{U_0} = \dfrac{-7/3}{-1} = \dfrac{7}{3}
+              \]
+              \[
+                \dfrac{U_2}{U_1} = \dfrac{-25/9}{-7/3} = \dfrac{25}{21}
+              \]
+              The ratios are not equal, so \((U_n)\) is not geometric.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ══════════════════════════════════════════════════════════════
+         SLIDE 29 — EXERCISE I SOLUTION PART B
+    ══════════════════════════════════════════════════════════════ -->
+    <section class="slide" data-title="Exercise I — Solution 2">
+      <div class="slide-inner">
+        <span class="slide-label">Solved Exercise I</span>
+        <h2 class="slide-title">Exercise I — Transforming the Sequence</h2>
+        <div class="card accent">
+          <h3>Define \(V_n = U_n + 3\)</h3>
+          <p>
+            Then
+            \[
+              V_{n+1} = U_{n+1} + 3
+                      = \dfrac{1}{3}U_n - 2 + 3
+                      = \dfrac{1}{3}U_n + 1
+                      = \dfrac{1}{3}(U_n + 3)
+                      = \dfrac{1}{3}V_n
+            \]
+          </p>
+        </div>
+        <div class="cards cols-2">
+          <div class="card">
+            <h3>Nature of \((V_n)\)</h3>
+            <p>
+              Since \(V_{n+1} = \dfrac{1}{3}V_n\), the sequence \((V_n)\) is
+              geometric with common ratio
+              \[
+                r = \dfrac{1}{3}
+              \]
+            </p>
+          </div>
+          <div class="card">
+            <h3>First term</h3>
+            <p>
+              \[
+                V_0 = U_0 + 3 = -1 + 3 = 2
+              \]
+              So the first term is
+              \[
+                V_0 = 2
+              \]
+            </p>
+          </div>
+        </div>
+        <div class="formula-box">
+          <div class="formula-label">Explicit formulas</div>
+          \[
+            V_n = 2\left(\dfrac{1}{3}\right)^n
+            \qquad\text{and}\qquad
+            U_n = V_n - 3 = 2\left(\dfrac{1}{3}\right)^n - 3
+          \]
+        </div>
+      </div>
+    </section>
+
+    <!-- ══════════════════════════════════════════════════════════════
+         SLIDE 30 — EXERCISE I SOLUTION PART C
+    ══════════════════════════════════════════════════════════════ -->
+    <section class="slide" data-title="Exercise I — Solution 3">
+      <div class="slide-inner">
+        <span class="slide-label">Solved Exercise I</span>
+        <h2 class="slide-title">Exercise I — Sums</h2>
+        <div class="card">
+          <h3>Sum of the geometric sequence</h3>
+          <p>
+            \[
+              S = V_0 + V_1 + \cdots + V_n
+            \]
+            Since \((V_n)\) is geometric with \(V_0 = 2\) and \(r = \dfrac{1}{3}\),
+            \[
+              S = 2\cdot \dfrac{1 - \left(\dfrac{1}{3}\right)^{n+1}}{1 - \dfrac{1}{3}}
+                = 2\cdot \dfrac{1 - \left(\dfrac{1}{3}\right)^{n+1}}{\dfrac{2}{3}}
+                = 3\left(1 - \left(\dfrac{1}{3}\right)^{n+1}\right)
+            \]
+          </p>
+        </div>
+        <div class="card accent">
+          <h3>Deduce the sum of \((U_n)\)</h3>
+          <p>
+            Since \(U_n = V_n - 3\),
+            \[
+              S' = U_0 + U_1 + \cdots + U_n
+                 = (V_0-3)+(V_1-3)+\cdots+(V_n-3)
+            \]
+            There are \(n+1\) terms, so
+            \[
+              S' = S - 3(n+1)
+            \]
+            Hence
+            \[
+              S' = 3\left(1 - \left(\dfrac{1}{3}\right)^{n+1}\right) - 3(n+1)
+            \]
+            and after simplification,
+            \[
+              S' = -3n - \left(\dfrac{1}{3}\right)^n
+            \]
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ══════════════════════════════════════════════════════════════
+         SLIDE 31 — EXERCISE II STATEMENT
+    ══════════════════════════════════════════════════════════════ -->
+    <section class="slide" data-title="Exercise II — Statement">
+      <div class="slide-inner">
+        <span class="slide-label">Solved Exercise II</span>
+        <h2 class="slide-title">Exercise II — Given Sequence</h2>
+        <div class="def-box">
+          <div class="def-label">Statement</div>
+          <p>
+            Consider the sequence \((U_n)\), \(n \in \mathbb{N}\), defined by
+            \[
+              \begin{cases}
+                U_0 = -2 \\
+                U_{n+1} = \dfrac{U_n}{1-U_n}
+              \end{cases}
+            \]
+          </p>
+        </div>
+        <div class="cards cols-2">
+          <div class="card">
+            <h3>Questions</h3>
+            <ul class="bullet-list">
+              <li>Calculate \(U_1\) and \(U_2\), then deduce that \((U_n)\) is neither arithmetic nor geometric.</li>
+              <li>Let \((V_n)\) be defined by \(V_n = 1 + \dfrac{1}{U_n}\).</li>
+              <li>Show that \((V_n)\) is arithmetic, then determine its first term and common difference.</li>
+              <li>Express \(V_n\) and then \(U_n\) in terms of \(n\).</li>
+            </ul>
+          </div>
+          <div class="card">
+            <h3>Final task</h3>
+            <ul class="bullet-list">
+              <li>Calculate \(S = V_0 + V_1 + \cdots + V_{100}\).</li>
+              <li>Deduce \(S' = \dfrac{1}{U_0} + \dfrac{1}{U_1} + \cdots + \dfrac{1}{U_{100}}\).</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ══════════════════════════════════════════════════════════════
+         SLIDE 32 — EXERCISE II SOLUTION PART A
+    ══════════════════════════════════════════════════════════════ -->
+    <section class="slide" data-title="Exercise II — Solution 1">
+      <div class="slide-inner">
+        <span class="slide-label">Solved Exercise II</span>
+        <h2 class="slide-title">Exercise II — First Terms and Nature</h2>
+        <div class="step-grid">
+          <div class="step-item">
+            <div class="step-num">1</div>
+            <div class="step-text">
+              <strong>Compute \(U_1\)</strong>
+              \[
+                U_1 = \dfrac{U_0}{1-U_0}
+                    = \dfrac{-2}{1-(-2)}
+                    = \dfrac{-2}{3}
+              \]
+            </div>
+          </div>
+          <div class="step-item">
+            <div class="step-num">2</div>
+            <div class="step-text">
+              <strong>Compute \(U_2\)</strong>
+              \[
+                U_2 = \dfrac{U_1}{1-U_1}
+                    = \dfrac{-\frac{2}{3}}{1+\frac{2}{3}}
+                    = \dfrac{-\frac{2}{3}}{\frac{5}{3}}
+                    = -\dfrac{2}{5}
+              \]
+            </div>
+          </div>
+        </div>
+        <div class="cards cols-2">
+          <div class="card accent">
+            <h3>Not arithmetic</h3>
+            <p>
+              \[
+                U_1 - U_0 = -\dfrac{2}{3} - (-2) = \dfrac{4}{3}
+              \]
+              \[
+                U_2 - U_1 = -\dfrac{2}{5} - \left(-\dfrac{2}{3}\right) = \dfrac{4}{15}
+              \]
+              The differences are not equal, so \((U_n)\) is not arithmetic.
+            </p>
+          </div>
+          <div class="card">
+            <h3>Not geometric</h3>
+            <p>
+              \[
+                \dfrac{U_1}{U_0} = \dfrac{-2/3}{-2} = \dfrac{1}{3}
+              \]
+              \[
+                \dfrac{U_2}{U_1} = \dfrac{-2/5}{-2/3} = \dfrac{3}{5}
+              \]
+              The ratios are not equal, so \((U_n)\) is not geometric.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ══════════════════════════════════════════════════════════════
+         SLIDE 33 — EXERCISE II SOLUTION PART B
+    ══════════════════════════════════════════════════════════════ -->
+    <section class="slide" data-title="Exercise II — Solution 2">
+      <div class="slide-inner">
+        <span class="slide-label">Solved Exercise II</span>
+        <h2 class="slide-title">Exercise II — Transforming the Sequence</h2>
+        <div class="card accent">
+          <h3>Define \(V_n = 1 + \dfrac{1}{U_n}\)</h3>
+          <p>
+            First compute
+            \[
+              \dfrac{1}{U_{n+1}}
+              = \dfrac{1-U_n}{U_n}
+              = \dfrac{1}{U_n} - 1
+            \]
+            Therefore
+            \[
+              V_{n+1} = 1 + \dfrac{1}{U_{n+1}}
+                      = 1 + \left(\dfrac{1}{U_n} - 1\right)
+                      = \dfrac{1}{U_n}
+                      = V_n - 1
+            \]
+          </p>
+        </div>
+        <div class="cards cols-2">
+          <div class="card">
+            <h3>Nature of \((V_n)\)</h3>
+            <p>
+              Since \(V_{n+1} = V_n - 1\), the sequence \((V_n)\) is arithmetic
+              with common difference
+              \[
+                d = -1
+              \]
+            </p>
+          </div>
+          <div class="card">
+            <h3>First term</h3>
+            <p>
+              \[
+                V_0 = 1 + \dfrac{1}{U_0}
+                    = 1 + \dfrac{1}{-2}
+                    = \dfrac{1}{2}
+              \]
+            </p>
+          </div>
+        </div>
+        <div class="formula-box">
+          <div class="formula-label">Explicit formulas</div>
+          \[
+            V_n = \dfrac{1}{2} - n
+            \qquad\text{and}\qquad
+            \dfrac{1}{U_n} = V_n - 1 = -n - \dfrac{1}{2}
+          \]
+          \[
+            U_n = -\dfrac{2}{2n+1}
+          \]
+        </div>
+      </div>
+    </section>
+
+    <!-- ══════════════════════════════════════════════════════════════
+         SLIDE 34 — EXERCISE II SOLUTION PART C
+    ══════════════════════════════════════════════════════════════ -->
+    <section class="slide" data-title="Exercise II — Solution 3">
+      <div class="slide-inner">
+        <span class="slide-label">Solved Exercise II</span>
+        <h2 class="slide-title">Exercise II — Sums</h2>
+        <div class="card">
+          <h3>Sum of the arithmetic sequence</h3>
+          <p>
+            \[
+              S = V_0 + V_1 + \cdots + V_{100}
+            \]
+            Here
+            \[
+              V_0 = \dfrac{1}{2}, \qquad V_{100} = \dfrac{1}{2} - 100 = -\dfrac{199}{2}
+            \]
+            and there are \(101\) terms. So
+            \[
+              S = \dfrac{101}{2}\left(V_0 + V_{100}\right)
+                = \dfrac{101}{2}\left(\dfrac{1}{2} - \dfrac{199}{2}\right)
+                = \dfrac{101}{2}(-99)
+                = -\dfrac{9999}{2}
+            \]
+          </p>
+        </div>
+        <div class="card accent">
+          <h3>Deduce the reciprocal sum</h3>
+          <p>
+            Since
+            \[
+              V_n = 1 + \dfrac{1}{U_n}
+              \quad\Longrightarrow\quad
+              \dfrac{1}{U_n} = V_n - 1
+            \]
+            we get
+            \[
+              S' = \dfrac{1}{U_0} + \dfrac{1}{U_1} + \cdots + \dfrac{1}{U_{100}}
+                 = (V_0-1)+(V_1-1)+\cdots+(V_{100}-1)
+            \]
+            Hence
+            \[
+              S' = S - 101
+                 = -\dfrac{9999}{2} - 101
+                 = -\dfrac{10201}{2}
+            \]
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ══════════════════════════════════════════════════════════════
+         SLIDE 35 — PRACTICE EXERCISE
+    ══════════════════════════════════════════════════════════════ -->
+    <section class="slide" data-title="Practice Exercise">
+      <div class="slide-inner">
+        <span class="slide-label">Practice — For the Student</span>
+        <h2 class="slide-title">Similar Exercise — Solve It Yourself</h2>
+        <div class="def-box">
+          <div class="def-label">Exercise</div>
+          <p>
+            Consider the sequence \((U_n)\), \(n \in \mathbb{N}\), defined by
+            \[
+              \begin{cases}
+                U_0 = 5 \\
+                U_{n+1} = \dfrac{2}{5}U_n + \dfrac{6}{5}
+              \end{cases}
+            \]
+          </p>
+        </div>
+        <div class="cards cols-2">
+          <div class="card">
+            <h3>Questions</h3>
+            <ul class="bullet-list">
+              <li>Calculate \(U_1\) and \(U_2\), then determine whether \((U_n)\) is arithmetic or geometric.</li>
+              <li>Let \((V_n)\) be defined by \(V_n = U_n - 2\).</li>
+              <li>Show that \((V_n)\) is geometric and determine its first term and common ratio.</li>
+              <li>Express \(V_n\) and then \(U_n\) in terms of \(n\).</li>
+            </ul>
+          </div>
+          <div class="card accent">
+            <h3>Final task</h3>
+            <ul class="bullet-list">
+              <li>Calculate \(S = V_0 + V_1 + \cdots + V_n\).</li>
+              <li>Deduce \(S' = U_0 + U_1 + \cdots + U_n\).</li>
+            </ul>
+            <br/>
+            <p><strong>No solution is provided here.</strong> Try to follow the same method used in Exercise I.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </div><!-- /slides-wrap -->
+
+  <!-- ── Navigation bar ── -->
+  <div id="nav-bar">
+    <button class="nav-btn" id="btn-prev" onclick="navigate(-1)">&#8592; Previous</button>
+    <span id="slide-title-bar"></span>
+    <span id="slide-counter"></span>
+    <button class="nav-btn primary" id="btn-next" onclick="navigate(1)">Next &#8594;</button>
+  </div>
+</div><!-- /deck -->
+
+<script>
+  const slides = document.querySelectorAll('.slide');
+  const total = slides.length;
+  let current = 0;
+
+  function showSlide(index) {
+    slides[current].classList.remove('active');
+    current = Math.max(0, Math.min(total - 1, index));
+    slides[current].classList.add('active');
+
+    document.getElementById('slide-counter').textContent =
+      (current + 1) + ' / ' + total;
+
+    document.getElementById('slide-title-bar').textContent =
+      slides[current].dataset.title || '';
+
+    document.getElementById('btn-prev').disabled = current === 0;
+    document.getElementById('btn-next').disabled = current === total - 1;
+
+    const pct = total > 1 ? (current / (total - 1)) * 100 : 100;
+    document.getElementById('progress-fill').style.width = pct + '%';
+
+    if (window.MathJax) {
+      MathJax.typesetPromise([slides[current]]).catch(function(){});
+    }
+  }
+
+  function navigate(dir) { showSlide(current + dir); }
+
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'ArrowRight' || e.key === 'ArrowDown') navigate(1);
+    if (e.key === 'ArrowLeft'  || e.key === 'ArrowUp')   navigate(-1);
+  });
+
+  showSlide(0);
+</script>
+</body>
+</html>
