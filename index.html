@@ -507,7 +507,8 @@ MathJax = {
           <span>Use ← → arrow keys or the buttons below to navigate</span>
         </div>
       </div>
-    </section>
+</section>
+
 
     <!-- ══════════════════════════════════════════════════════════════
          SLIDE 2 — WHAT IS A SEQUENCE?
@@ -967,6 +968,81 @@ MathJax = {
     </section>
 
     <!-- ══════════════════════════════════════════════════════════════
+         NEW SLIDE — ARITHMETIC RELATION BETWEEN TWO TERMS
+    ══════════════════════════════════════════════════════════════ -->
+    <section class="slide" data-title="Arithmetic — Relation Between Two Terms">
+      <div class="slide-inner">
+        <span class="slide-label">Section 2 — Arithmetic Sequences</span>
+        <h2 class="slide-title">Relation Between Two Terms in an Arithmetic Sequence</h2>
+        <p class="slide-subtitle">
+          We can go directly from one known term to another without returning to \(U_1\).
+        </p>
+        <div class="formula-box">
+          <div class="formula-label">Arithmetic relation</div>
+          \[
+            U_q = U_p + (q-p)d
+          \]
+        </div>
+        <div class="cards cols-2">
+          <div class="card accent">
+            <h3>Meaning</h3>
+            <p>
+              Starting from \(U_p\), we add the common difference \(d\)
+              exactly \((q-p)\) times to reach \(U_q\).
+            </p>
+          </div>
+          <div class="card">
+            <h3>Example</h3>
+            <p>
+              \[
+                U_{10} = U_4 + (10-4)d = U_4 + 6d
+              \]
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ══════════════════════════════════════════════════════════════
+         NEW SLIDE — ARITHMETIC SUM FROM U4 TO U10
+    ══════════════════════════════════════════════════════════════ -->
+    <section class="slide" data-title="Arithmetic — Sum from U4 to U10">
+      <div class="slide-inner">
+        <span class="slide-label">Section 2 — Arithmetic Series</span>
+        <h2 class="slide-title">Sum Between Two Terms (General Case)</h2>
+        <p class="slide-subtitle">
+          We want to compute the sum \(U_p + U_{p+1} + \cdots + U_q\).
+        </p>
+        <div class="cards cols-2">
+          <div class="card accent">
+            <h3>Using first and last term</h3>
+            <div class="formula-box" style="margin-top:0.8rem">
+              <div class="formula-label">Arithmetic partial sum</div>
+              \[
+                U_4 + U_5 + \cdots + U_{10}
+                = \frac{q-p+1}{2}(U_p + U_q)
+              \]
+            </div>
+          </div>
+          <div class="card">
+            <h3>Using the common difference</h3>
+            <p>
+              Since
+              \[
+                U_{10} = U_4 + 6d,
+              \]
+              we can also write
+              \[
+                U_4 + U_5 + \cdots + U_{10}
+                = \frac{7}{2}(2U_p + (q-p)d).
+              \]
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ══════════════════════════════════════════════════════════════
          SLIDE 13 — GEOMETRIC SEQUENCE DEFINITION
     ══════════════════════════════════════════════════════════════ -->
     <section class="slide" data-title="Geometric Sequences">
@@ -1148,6 +1224,81 @@ MathJax = {
     </section>
 
     <!-- ══════════════════════════════════════════════════════════════
+         NEW SLIDE — GEOMETRIC RELATION BETWEEN TWO TERMS
+    ══════════════════════════════════════════════════════════════ -->
+    <section class="slide" data-title="Geometric — Relation Between Two Terms">
+      <div class="slide-inner">
+        <span class="slide-label">Section 3 — Geometric Sequences</span>
+        <h2 class="slide-title">Relation Between Two Terms in a Geometric Sequence</h2>
+        <p class="slide-subtitle">
+          We can also move directly from one known term to another in a geometric sequence.
+        </p>
+        <div class="formula-box">
+          <div class="formula-label">Geometric relation</div>
+          \[
+            U_q = U_p \cdot r^{\,q-p}
+          \]
+        </div>
+        <div class="cards cols-2">
+          <div class="card accent">
+            <h3>Meaning</h3>
+            <p>
+              Starting from \(U_p\), we multiply by the common ratio \(r\)
+              exactly \((q-p)\) times to reach \(U_q\).
+            </p>
+          </div>
+          <div class="card">
+            <h3>Example</h3>
+            <p>
+              \[
+                U_{10} = U_4 \cdot r^{10-4} = U_4 \cdot r^6
+              \]
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ══════════════════════════════════════════════════════════════
+         NEW SLIDE — GEOMETRIC SUM FROM U4 TO U10
+    ══════════════════════════════════════════════════════════════ -->
+    <section class="slide" data-title="Geometric — Sum from U4 to U10">
+      <div class="slide-inner">
+        <span class="slide-label">Section 3 — Geometric Series</span>
+        <h2 class="slide-title">Sum Between Two Terms (General Case)</h2>
+        <p class="slide-subtitle">
+          The sum \(U_4 + U_5 + \cdots + U_{10}\) contains \(7\) consecutive terms.
+        </p>
+        <div class="cards cols-2">
+          <div class="card accent">
+            <h3>Case \(r \ne 1\)</h3>
+            <div class="formula-box" style="margin-top:0.8rem">
+              <div class="formula-label">Geometric partial sum</div>
+              \[
+                U_4 + U_5 + \cdots + U_{10}
+                = U_p \cdot \frac{1-r^{q-p+1}}{1-r}
+              \]
+            </div>
+          </div>
+          <div class="card">
+            <h3>Case \(r = 1\)</h3>
+            <p>
+              If all seven terms are equal, then
+              \[
+                U_4 + U_5 + \cdots + U_{10} = (q-p+1)U_p.
+              \]
+            </p>
+            <br/>
+            <p>
+              Here the first term of the partial sum is \(U_4\), the ratio is \(r\),
+              and the number of terms is \(7\).
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ══════════════════════════════════════════════════════════════
          SLIDE 18 — BEHAVIOR OF GEOMETRIC SEQUENCES
     ══════════════════════════════════════════════════════════════ -->
     <section class="slide" data-title="Behavior of Geometric Sequences">
@@ -1156,14 +1307,14 @@ MathJax = {
         <h2 class="slide-title">Behavior of Geometric Sequences</h2>
         <div class="cards cols-2">
           <div class="card accent">
-            <h3>Growth — \(|r| &gt; 1\)</h3>
+            <h3>Growth — \(|r \space| &gt; 1\)</h3>
             <p>Terms grow without bound in absolute value.</p>
             <br/>
             <p>\(r = 2:\quad 1,\; 2,\; 4,\; 8,\; 16,\; \ldots\)</p>
             <p style="margin-top:0.4rem;font-size:0.88rem;color:var(--navy-light)">Each term doubles — exponential growth.</p>
           </div>
           <div class="card">
-            <h3>Decay — \(0 &lt; |r| &lt; 1\)</h3>
+            <h3>Decay — \(0 &lt; |r\space| &lt; 1\)</h3>
             <p>Terms shrink toward zero.</p>
             <br/>
             <p>\(r = \tfrac{1}{2}:\quad 64,\; 32,\; 16,\; 8,\; 4,\; \ldots\)</p>
@@ -1239,7 +1390,7 @@ MathJax = {
           <div class="card accent">
             <h3>Scenario — Monthly savings</h3>
             <p>
-              Sarah saves $200 in month 1, then $50 more each month.
+              Sarah saves \$200 in month 1, then $50 more each month.
               How much has she saved after 12 months?
             </p>
             <br/>
@@ -1984,7 +2135,515 @@ MathJax = {
       </div>
     </section>
 
-  </div><!-- /slides-wrap -->
+    <!-- ══════════════════════════════════════════════════════════════
+         EXTRA EXERCISES — INTRO
+    ══════════════════════════════════════════════════════════════ -->
+    <section class="slide" data-title="Additional Exercises — Introduction">
+      <div class="slide-inner">
+        <span class="slide-label">Extension — Additional Solved Exercises</span>
+        <h2 class="slide-title">Additional Exercises with Solutions</h2>
+        <p class="slide-subtitle">
+          These exercises are added at the end as extra applications on arithmetic
+          and geometric sequences.
+        </p>
+        <div class="note-box">
+          <p>
+            In Exercise VI(2), the sign of the common ratio is not specified.
+            So there are two valid possibilities.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide" data-title="Exercise I — Statement">
+      <div class="slide-inner">
+        <span class="slide-label">Additional Exercise I</span>
+        <h2 class="slide-title">Exercise I — Arithmetic Sequence</h2>
+        <div class="def-box">
+          <div class="def-label">Statement</div>
+          <p>
+            Consider an arithmetic sequence \((U_n)\) such that
+            \[
+              U_3 + U_4 + \cdots + U_{10} = 180
+              \qquad \text{and} \qquad
+              U_6 = 20.
+            \]
+            Calculate \(U_0\) and \(d\).
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide" data-title="Exercise I — Solution">
+      <div class="slide-inner">
+        <span class="slide-label">Additional Exercise I</span>
+        <h2 class="slide-title">Exercise I — Solution</h2>
+        <div class="cards cols-2">
+          <div class="card accent">
+            <h3>Build the equations</h3>
+            <p>
+              From \(U_3\) to \(U_{10}\), there are \(8\) terms:
+              \[
+                180 = \frac{8}{2}(U_3 + U_{10}) = 4(U_3 + U_{10}).
+              \]
+              Also
+              \[
+                U_3 = U_0 + 3d, \qquad U_{10} = U_0 + 10d.
+              \]
+              So
+              \[
+                180 = 4(2U_0 + 13d)
+                \quad \Longrightarrow \quad
+                2U_0 + 13d = 45.
+              \]
+            </p>
+          </div>
+          <div class="card">
+            <h3>Use \(U_6\)</h3>
+            <p>
+              \[
+                U_6 = U_0 + 6d = 20.
+              \]
+              Hence
+              \[
+                U_0 = 20 - 6d.
+              \]
+              Substitute:
+              \[
+                2(20-6d) + 13d = 45
+              \]
+              \[
+                d = 5, \qquad U_0 = -10.
+              \]
+            </p>
+          </div>
+        </div>
+        <div class="formula-box">
+          <div class="formula-label">Answer</div>
+          \[
+            U_0 = -10, \qquad d = 5
+          \]
+        </div>
+      </div>
+    </section>
+
+    <section class="slide" data-title="Exercise II — Statement">
+      <div class="slide-inner">
+        <span class="slide-label">Additional Exercise II</span>
+        <h2 class="slide-title">Exercise II — Geometric Sequence</h2>
+        <div class="def-box">
+          <div class="def-label">Statement</div>
+          <p>
+            Consider a geometric sequence \((V_n)\) with all its terms negative such that
+            \[
+              V_0 = -2
+              \qquad \text{and} \qquad
+              V_3 = -\frac{2}{27}.
+            \]
+            Calculate
+            \[
+              V_6 + V_7 + \cdots + V_{19}.
+            \]
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide" data-title="Exercise II — Solution">
+      <div class="slide-inner">
+        <span class="slide-label">Additional Exercise II</span>
+        <h2 class="slide-title">Exercise II — Solution</h2>
+        <div class="cards cols-2">
+          <div class="card accent">
+            <h3>Find the ratio</h3>
+            <p>
+              Since
+              \[
+                V_3 = V_0 r^3,
+              \]
+              we get
+              \[
+                -\frac{2}{27} = -2r^3
+                \quad \Longrightarrow \quad
+                r^3 = \frac{1}{27}.
+              \]
+              Hence
+              \[
+                r = \frac{1}{3}.
+              \]
+            </p>
+          </div>
+          <div class="card">
+            <h3>Compute the sum</h3>
+            <p>
+              \[
+                V_6 = V_0r^6 = -2\left(\frac13\right)^6 = -\frac{2}{729}.
+              \]
+              The number of terms from \(V_6\) to \(V_{19}\) is
+              \[
+                19-6+1 = 14.
+              \]
+              So
+              \[
+                V_6 + \cdots + V_{19}
+                = V_6\frac{1-r^{14}}{1-r}
+                = -\frac{1}{243}\left(1-\left(\frac13\right)^{14}\right).
+              \]
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide" data-title="Exercise III — Statement">
+      <div class="slide-inner">
+        <span class="slide-label">Additional Exercise III</span>
+        <h2 class="slide-title">Exercise III — Arithmetic Relation</h2>
+        <div class="cards cols-2">
+          <div class="card accent">
+            <h3>Part 1</h3>
+            <p>
+              Given \(U_5 = 7\) and \(d = 2\), calculate \(U_{11}\), \(U_{25}\), and \(U_{100}\).
+            </p>
+          </div>
+          <div class="card">
+            <h3>Part 2</h3>
+            <p>
+              Given \(U_5 = 12\) and \(U_8 = 0\), calculate \(d\), \(U_{30}\), and \(U_{18}\).
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide" data-title="Exercise III — Solution">
+      <div class="slide-inner">
+        <span class="slide-label">Additional Exercise III</span>
+        <h2 class="slide-title">Exercise III — Solution</h2>
+        <div class="cards cols-2">
+          <div class="card accent">
+            <h3>Part 1</h3>
+            <p>
+              \[
+                U_{11} = U_5 + (11-5)\cdot 2 = 19,
+              \]
+              \[
+                U_{25} = U_5 + (25-5)\cdot 2 = 47,
+              \]
+              \[
+                U_{100} = U_5 + (100-5)\cdot 2 = 197.
+              \]
+            </p>
+          </div>
+          <div class="card">
+            <h3>Part 2</h3>
+            <p>
+              \[
+                0 = U_8 = U_5 + (8-5)d = 12 + 3d
+              \]
+              so
+              \[
+                d = -4.
+              \]
+              Then
+              \[
+                U_{30} = U_5 + 25(-4) = -88,
+              \]
+              \[
+                U_{18} = U_5 + 13(-4) = -40.
+              \]
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide" data-title="Exercise IV — Statement">
+      <div class="slide-inner">
+        <span class="slide-label">Additional Exercise IV</span>
+        <h2 class="slide-title">Exercise IV — Find the Integer \(n\)</h2>
+        <div class="def-box">
+          <div class="def-label">Statement</div>
+          <p>
+            Consider an arithmetic sequence \((U_n)\) with common difference \(5\) and \(U_0 = 2\).
+            Calculate the integer \(n\) such that
+            \[
+              U_3 + U_4 + \cdots + U_n = 6456.
+            \]
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide" data-title="Exercise IV — Solution">
+      <div class="slide-inner">
+        <span class="slide-label">Additional Exercise IV</span>
+        <h2 class="slide-title">Exercise IV — Solution</h2>
+        <div class="cards cols-2">
+          <div class="card accent">
+            <h3>Set up the sum</h3>
+            <p>
+              \[
+                U_3 = 2 + 3\cdot 5 = 17, \qquad U_n = 2 + 5n.
+              \]
+              The number of terms is \(n-2\), so
+              \[
+                6456 = \frac{n-2}{2}(17 + 2 + 5n)
+                     = \frac{n-2}{2}(19+5n).
+              \]
+            </p>
+          </div>
+          <div class="card">
+            <h3>Solve</h3>
+            <p>
+              \[
+                (n-2)(19+5n)=12912
+              \]
+              \[
+                5n^2 + 9n -12950 = 0.
+              \]
+              The positive integer solution is
+              \[
+                n = 50.
+              \]
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide" data-title="Exercise V — Statement and Solution">
+      <div class="slide-inner">
+        <span class="slide-label">Additional Exercise V</span>
+        <h2 class="slide-title">Exercise V — Three Consecutive Terms</h2>
+        <div class="cards cols-2">
+          <div class="card accent">
+            <h3>Statement</h3>
+            <p>
+              The sum of three consecutive terms of an arithmetic sequence is \(21\)
+              and their product is \(315\). Find these terms.
+            </p>
+          </div>
+          <div class="card">
+            <h3>Solution</h3>
+            <p>
+              Let the terms be \(a-d\), \(a\), \(a+d\).
+              Then
+              \[
+                (a-d)+a+(a+d)=21 \Longrightarrow 3a=21 \Longrightarrow a=7.
+              \]
+              Also
+              \[
+                (7-d)(7)(7+d)=315
+              \]
+              gives
+              \[
+                49-d^2=45 \Longrightarrow d^2=4.
+              \]
+              So the terms are
+              \[
+                5,\ 7,\ 9.
+              \]
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide" data-title="Exercise VI — Statement">
+      <div class="slide-inner">
+        <span class="slide-label">Additional Exercise VI</span>
+        <h2 class="slide-title">Exercise VI — Geometric Relation</h2>
+        <div class="cards cols-2">
+          <div class="card accent">
+            <h3>Part 1</h3>
+            <p>
+              Given \(V_1=3\) and \(r=-2\), calculate \(V_6\), \(V_8\), and \(V_{12}\).
+            </p>
+          </div>
+          <div class="card">
+            <h3>Part 2</h3>
+            <p>
+              Given \(V_1=2\) and \(V_3=18\), calculate \(V_0\) and \(V_{20}\).
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide" data-title="Exercise VI — Solution">
+      <div class="slide-inner">
+        <span class="slide-label">Additional Exercise VI</span>
+        <h2 class="slide-title">Exercise VI — Solution</h2>
+        <div class="cards cols-2">
+          <div class="card accent">
+            <h3>Part 1</h3>
+            <p>
+              \[
+                V_n = V_1r^{n-1}
+              \]
+              so
+              \[
+                V_6 = 3(-2)^5 = -96,
+              \]
+              \[
+                V_8 = 3(-2)^7 = -384,
+              \]
+              \[
+                V_{12} = 3(-2)^{11} = -6144.
+              \]
+            </p>
+          </div>
+          <div class="card">
+            <h3>Part 2</h3>
+            <p>
+              \[
+                18 = V_3 = V_1r^2 = 2r^2
+                \Longrightarrow r^2 = 9.
+              \]
+              So
+              \[
+                r=3 \quad \text{or} \quad r=-3.
+              \]
+              Therefore
+              \[
+                V_0 = \frac{V_1}{r}
+                = \frac23 \quad \text{or} \quad -\frac23,
+              \]
+              and
+              \[
+                V_{20} = V_1r^{19}
+                = 2\cdot 3^{19} \quad \text{or} \quad -2\cdot 3^{19}.
+              \]
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide" data-title="Exercise VII — Statement and Solution">
+      <div class="slide-inner">
+        <span class="slide-label">Additional Exercise VII</span>
+        <h2 class="slide-title">Exercise VII — Sum of an Arithmetic Sequence</h2>
+        <div class="cards cols-2">
+          <div class="card accent">
+            <h3>Statement</h3>
+            <p>
+              Calculate the sum
+              \[
+                113 + 109 + 105 + 101 + \cdots + (-411).
+              \]
+            </p>
+          </div>
+          <div class="card">
+            <h3>Solution</h3>
+            <p>
+              This is arithmetic with
+              \[
+                U_1=113, \qquad d=-4.
+              \]
+              Solve
+              \[
+                -411 = 113 + (n-1)(-4)
+              \]
+              to get
+              \[
+                n=132.
+              \]
+              Then
+              \[
+                S = \frac{132}{2}(113-411)
+                  = 66(-298)
+                  = -19668.
+              \]
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  
+<section class="slide" data-title="Practice — Induction">
+<div class="slide-inner">
+<h2 class="slide-title">Practice (No Solution)</h2>
+<p>Given \(U_0=2\), \(U_{n+1} = \frac{U_n}{2+U_n}\). Prove:</p>
+<div class="formula-box">\[ U_n = \frac{2}{n+1} \]</div>
+</div>
+</section>
+
+
+<section class="slide" data-title="Practice — Sequences">
+<div class="slide-inner">
+  <span class="slide-label">Practice — For the Student</span>
+  <h2 class="slide-title">More Practice</h2>
+  <p class="slide-subtitle">
+    Try these exercises on your own. No solutions are provided here.
+  </p>
+
+  <div class="cards cols-2">
+    <div class="card accent">
+      <h3>1 — Find \(U_0\) and \(d\)</h3>
+      <p>
+        Consider an arithmetic sequence \((U_n)\) such that
+        \[
+          U_2 + U_3 + \cdots + U_9 = 168
+          \qquad \text{and} \qquad
+          U_5 = 18.
+        \]
+        Calculate \(U_0\) and \(d\).
+      </p>
+    </div>
+
+    <div class="card">
+      <h3>2 — Find the ratio</h3>
+      <p>
+        Consider a geometric sequence \((V_n)\) such that
+        \[
+          V_1 = 6
+          \qquad \text{and} \qquad
+          V_4 = 162.
+        \]
+        Calculate the common ratio \(r\), then find \(V_0\) and \(V_7\).
+      </p>
+    </div>
+
+    <div class="card">
+      <h3>3 — Compute \(U_p + \cdots + U_q\)</h3>
+      <p>
+        Consider an arithmetic sequence \((U_n)\) with
+        \[
+          U_3 = 11
+          \qquad \text{and} \qquad
+          d = 4.
+        \]
+        Calculate
+        \[
+          U_3 + U_4 + \cdots + U_{12}.
+        \]
+      </p>
+    </div>
+
+    <div class="card accent">
+      <h3>4 — Geometric partial sum</h3>
+      <p>
+        Consider a geometric sequence \((U_n)\) with
+        \[
+          U_2 = 8
+          \qquad \text{and} \qquad
+          r = \frac{1}{2}.
+        \]
+        Calculate
+        \[
+          U_2 + U_3 + \cdots + U_8.
+        \]
+      </p>
+    </div>
+  </div>
+</div>
+</section>
+
+
+</div><!-- /slides-wrap -->
 
   <!-- ── Navigation bar ── -->
   <div id="nav-bar">
@@ -2033,3 +2692,22 @@ MathJax = {
 </script>
 </body>
 </html>
+
+<!-- INDUCTION APPLICATIONS -->
+<section class="slide" data-title="Induction — Application 1">
+<div class="slide-inner">
+<h2 class="slide-title">Application 1</h2>
+<p>Given \(U_0=1\), \(U_{n+1} = \frac{U_n}{3-U_n}\). Prove:</p>
+<div class="formula-box">\[ U_n = \frac{2}{3^n+1} \]</div>
+<p><strong>Idea:</strong> verify for n=0, assume true for k, prove for k+1.</p>
+</div>
+</section>
+
+<section class="slide" data-title="Induction — Application 2">
+<div class="slide-inner">
+<h2 class="slide-title">Application 2</h2>
+<p>Given \(U_0=1\), \(U_{n+1} = \frac{4}{4-U_n}\). Prove:</p>
+<div class="formula-box">\[ U_n < 2 \]</div>
+<p><strong>Idea:</strong> show if \(U_k<2\) then \(U_{k+1}<2\).</p>
+</div>
+</section>
