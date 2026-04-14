@@ -980,7 +980,7 @@ MathJax = {
         <div class="formula-box">
           <div class="formula-label">Arithmetic relation</div>
           \[
-            U_q = U_p + (q-p)d
+            U_n = U_p + (n-p)d
           \]
         </div>
         <div class="cards cols-2">
@@ -988,7 +988,7 @@ MathJax = {
             <h3>Meaning</h3>
             <p>
               Starting from \(U_p\), we add the common difference \(d\)
-              exactly \((q-p)\) times to reach \(U_q\).
+              exactly \((n-p)\) times to reach \(U_n\).
             </p>
           </div>
           <div class="card">
@@ -1006,12 +1006,12 @@ MathJax = {
     <!-- ══════════════════════════════════════════════════════════════
          NEW SLIDE — ARITHMETIC SUM FROM U4 TO U10
     ══════════════════════════════════════════════════════════════ -->
-    <section class="slide" data-title="Arithmetic — Sum from U4 to U10">
+    <section class="slide" data-title="Arithmetic — Sum from Up to Un">
       <div class="slide-inner">
         <span class="slide-label">Section 2 — Arithmetic Series</span>
         <h2 class="slide-title">Sum Between Two Terms (General Case)</h2>
         <p class="slide-subtitle">
-          We want to compute the sum \(U_p + U_{p+1} + \cdots + U_q\).
+          We want to compute the sum \(U_p + U_{p+1} + \cdots + U_n\).
         </p>
         <div class="cards cols-2">
           <div class="card accent">
@@ -1019,8 +1019,8 @@ MathJax = {
             <div class="formula-box" style="margin-top:0.8rem">
               <div class="formula-label">Arithmetic partial sum</div>
               \[
-                U_4 + U_5 + \cdots + U_{10}
-                = \frac{q-p+1}{2}(U_p + U_q)
+                U_p  + \cdots + U_{n}
+                = \frac{n-p+1}{2}(U_p + U_n)
               \]
             </div>
           </div>
@@ -1236,7 +1236,7 @@ MathJax = {
         <div class="formula-box">
           <div class="formula-label">Geometric relation</div>
           \[
-            U_q = U_p \cdot r^{\,q-p}
+            U_n = U_p \cdot r^{\,n-p}
           \]
         </div>
         <div class="cards cols-2">
@@ -1244,7 +1244,7 @@ MathJax = {
             <h3>Meaning</h3>
             <p>
               Starting from \(U_p\), we multiply by the common ratio \(r\)
-              exactly \((q-p)\) times to reach \(U_q\).
+              exactly \((n-p)\) times to reach \(U_n\).
             </p>
           </div>
           <div class="card">
@@ -1262,7 +1262,7 @@ MathJax = {
     <!-- ══════════════════════════════════════════════════════════════
          NEW SLIDE — GEOMETRIC SUM FROM U4 TO U10
     ══════════════════════════════════════════════════════════════ -->
-    <section class="slide" data-title="Geometric — Sum from U4 to U10">
+    <section class="slide" data-title="Geometric — Sum from Up to Un">
       <div class="slide-inner">
         <span class="slide-label">Section 3 — Geometric Series</span>
         <h2 class="slide-title">Sum Between Two Terms (General Case)</h2>
@@ -1275,7 +1275,7 @@ MathJax = {
             <div class="formula-box" style="margin-top:0.8rem">
               <div class="formula-label">Geometric partial sum</div>
               \[
-                U_4 + U_5 + \cdots + U_{10}
+                U_p + \cdots + U_{n}
                 = U_p \cdot \frac{1-r^{q-p+1}}{1-r}
               \]
             </div>
@@ -2608,7 +2608,7 @@ MathJax = {
     </div>
 
     <div class="card">
-      <h3>3 — Compute \(U_p + \cdots + U_q\)</h3>
+      <h3>3 — Compute \(U_p + \cdots + U_n\)</h3>
       <p>
         Consider an arithmetic sequence \((U_n)\) with
         \[
